@@ -1,5 +1,6 @@
 import React from 'react';
 import ContextState from './context_state_config';
+import Home from './components/Home/Home'
 
 
 
@@ -9,6 +10,7 @@ const App = () => {
       <div>
       React
       <ContextState />
+      <Home />
       </div>
     )
 }
