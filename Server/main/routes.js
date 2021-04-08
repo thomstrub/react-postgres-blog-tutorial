@@ -138,6 +138,40 @@ router.get('/api/get/allpostcomments', (req, res, next) => {
                 });
 });
 
+// User Profile Routes --------------------------------------------------------
+
+router.post('/api/posts/userprofiletodb', (req, res, next) => {
+    const values = [req.body.profile.nickname,
+                    req.body.profile.email,
+                    req.body.profile.email_verified]
+    pool.query(`INSERT INTO users(username, email, email_verified, date_created)
+                VALUES($1, $2, $3, NOW())
+                ON CONFLICT DO NOTHING`, values,
+                (q_err, q_res) => {
+                    res.json(q_res.rows)
+                });
+});
+
+router.get('/api/get/userprofilefromdb', (req, res, next) => {
+    const email = req.query.email
+    console.log(email)
+    pool.query(`SELECT * FROM users
+                WHERE email=$1`, [ email ],
+                (q_err, q_res) => {
+                    res.json(q_res.rows)
+                });
+});
+
+router.get('/api/get/userposts', (req, res, next) => {
+    const user_id = req.query.user_id
+    console.log(user_id)
+    pool.query(`SELECT * FROM posts
+                WHERE user_id=$1`, [user_id],
+                (q_err, q_res) => {
+                    res.json(q_res.rows)
+                });
+});
+
 
 
 
