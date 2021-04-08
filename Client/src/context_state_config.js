@@ -8,6 +8,7 @@ import * as FormReducer from './store/reducers/form_reducer';
 import Routes from './routes';
 
 import Auth from './utils/auth';
+import { PostsReducer } from './store/reducers/post_reducer';
 
 
 const auth = new Auth()
@@ -39,6 +40,13 @@ const ContextState = () => {
     const [stateAuthReducer, dispatchAuthReducer] = useReducer(AuthReducer.AuthReducer,
                                                                AuthReducer.initialState)
 
+    const handleDBProfile = (profile) => {
+      dispatchAuthReducer(ACTIONS.set_db_profile(profile) )
+    }
+
+    const handleRemoveDBProfile = () => {
+      dispatchAuthReducer(ACTIONS.remove_db_profile() )
+    }
 
     const handleLogin = () => {
       dispatchAuthReducer(ACTIONS.login_success())
@@ -83,6 +91,20 @@ const ContextState = () => {
     }
 
 
+    /*
+      Posts Reducer
+    */
+
+    const [statePosts, dispatchPosts] = useReducer(PostsReducer.PostsReducer, PostsReducer.initialState)
+
+    const handleSetPosts = (posts) => {
+      dispatchPosts(ACTIONS.set_db_posts(posts))
+    }
+
+    const handleRemovePosts = () => {
+      dispatchPosts(ACTIONS.remove_db_posts() )
+    }
+
 
     return(
       <div>
@@ -110,7 +132,17 @@ const ContextState = () => {
 
             //Handle auth
             handleAuth: (props) => handleAuthentication(props),
-            authObj: auth
+            authObj: auth,
+
+            //DB profile
+            dbProfileState: stateAuthReducer.db_profile,
+            handleAddDBProfile: (profile) => handleDBProfile(profile),
+            handleRemoveDBProfile: () => handleRemoveDBProfile(),
+
+            //Posts State
+            postsState: statePostsReducer.posts,
+            handleAddPosts: (posts) => handleSetPosts(posts),
+            handleRemovePosts: () => handleRemovePosts()
           }}>
           <Routes />
       </Context.Provider>
