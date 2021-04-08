@@ -172,8 +172,27 @@ router.get('/api/get/userposts', (req, res, next) => {
                 });
 });
 
+// Retrieve another users profile from db based on username
+router.get('/api/get/otheruserprofilefromdb', (req, res, next) => {
+    //const email = "%" + req.query.email + "%"
+    const username = String(req.query.username)
+    pool.query(`SELECT * FROM users
+                WHERE username = $1`, [username],
+                (q_err, q_res) => {
+                    res.json(q_res.rows)
+                });
+});
 
 
+// Get another user's posts based on username
+router.get('/api/get/otheruserposts', (req, res, next) => {
+    const username = String(req.query.username)
+    pool.query(`SELECT * FROM posts
+                WHERE author = $1`, [username],
+                (q_err, q_res) => {
+                    res.json(q_res.rows)
+                });
+});
 
 
 module.exports = router
