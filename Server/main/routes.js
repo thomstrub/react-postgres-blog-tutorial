@@ -63,6 +63,7 @@ router.delete('/api/delete/post', (req, res, next) => {
             });
 });
 
+// psql requires foreign key associations be deleted before deleting an item
 router.delete('/api/delete/postcomments', (req,res, next) => {
     const post_id = req.body.post_id
     pool.query(`DELETE FROM comments WHERE post_id = $1` [post_id],
@@ -118,6 +119,7 @@ router.put('/api/put/commenttodb', (req, res, next) => {
                 });
 });
 
+// delete a single comment- not all as in above
 router.delete('/api/delete/comment', (req, res, next) => {
     const cid = req.body.comment_id
     console.log(cid)
@@ -139,6 +141,8 @@ router.get('/api/get/allpostcomments', (req, res, next) => {
 });
 
 // User Profile Routes --------------------------------------------------------
+
+//user data coming from authO
 
 router.post('/api/posts/userprofiletodb', (req, res, next) => {
     const values = [req.body.profile.nickname,
