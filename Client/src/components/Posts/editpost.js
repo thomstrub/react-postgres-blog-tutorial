@@ -41,5 +41,23 @@ const EditPost = (props) => {
             .then(setTimeout(() => history.replace('/profile'), 700))
     }
 
-    
+    return(
+        <div>
+            <form onSubmit={handleSubmit}>
+                <TextField
+                    id='title'
+                    label='title'
+                    margin='normal'
+                    value={stateLocal.title}
+                    onChange={handleTitleChange}
+                    />
+                <br />
+                <button type="submit"> Submit </button>
+            </form>
+            <br />
+            <Button onClick={()=> history.goBack()}> Cancel </Button>
+        </div>
+    )
 }
+
+export default EditPost;
