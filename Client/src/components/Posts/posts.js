@@ -105,10 +105,54 @@ const Posts = (props) => {
                     }
                     />
                 <br />
-                
+
             </Card>
         </div>
     )
+    const page_change = (page) => {
+        window.scrollTo({top: 0, left: 0, behavior: 'smooth'})
+
+        //variables for page change
+        let next_page = page + 1
+        let prev_page = page - 1
+
+        //handles general page change
+        //if(state.max_page < 5 return null)
+
+        if(page > 2 && page < stateLocal.max_page - 1){
+            setStateLocal({...stateLocal,
+                            currentPage: page,
+                            pages_slice: [prev_page -1,
+                                        prev_page,
+                                        page,
+                                        next_page,
+                                        next_page +1],
+                        })
+        }
+        if(page ==2) {
+            setStateLocal({...stateLocal,
+                            currentPage: page,
+                            pages_slice: [prev_page,
+                                            page,
+                                            next_page,
+                                            next_page + 1,
+                                            next_page +2],
+            })
+        }
+        //handles use case for user to go back to first page from another page
+        if(page == 1) {
+            setStateLocal({...stateLocal,
+                            currentPage: page,
+                            pages_slice: [page,
+                                        next_page,
+                                        next_page +1,
+                                        next_page +2,
+                                        next_page + 3],
+                                    })
+        }
+        //handles last page change
+        
+    }
 
 }
 
