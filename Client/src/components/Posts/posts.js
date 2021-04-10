@@ -133,10 +133,10 @@ const Posts = (props) => {
             setStateLocal({...stateLocal,
                             currentPage: page,
                             pages_slice: [prev_page,
-                                            page,
-                                            next_page,
-                                            next_page + 1,
-                                            next_page +2],
+                                        page,
+                                        next_page,
+                                        next_page + 1,
+                                        next_page +2],
             })
         }
         //handles use case for user to go back to first page from another page
@@ -151,8 +151,30 @@ const Posts = (props) => {
                                     })
         }
         //handles last page change
-        
+        if(page === stateLocal.max_page) {
+            setStateLocal({...stateLocal,
+                            currentPage: page,
+                            pages_slice: [prev_page - 3,
+                                        prev_page - 2,
+                                        prev_page -1,
+                                        prev_page,
+                                        page],
+                })
+        }
+        if(page === stateLocal.max_page -1) {
+            setStateLocal({...stateLocal,
+                            currentPage: page,
+                            pages_slice: [prev_page -2,
+                                        prev_page - 1,
+                                        prev_page,
+                                        page,
+                                        next_page],
+                })
+        }
     }
 
+    return(
+        
+    )
 }
 
