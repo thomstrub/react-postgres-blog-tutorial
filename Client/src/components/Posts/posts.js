@@ -17,7 +17,7 @@ import '../../App.css';
 import '../../styles/pagination.css';
 import { PostsReducer } from '../../store/reducers/post_reducer';
 
-export default function Posts(props){
+const Posts = (props) => {
     const context = useContext(Context)
 
     const [stateLocal, setStateLocal] = useState({posts: [],
@@ -54,6 +54,61 @@ export default function Posts(props){
         }
     }, [context, stateLocal]);
 
-    
+    useEffect(() => {
+        let page = stateLocal.currentPage
+        let indexOfLastPost = page * 3;
+        let indexOfFirstPost = indexOfLastPost - 3;
+
+        setStateLocal({...stateLocal,
+                        posts_slice: stateLocal.posts.slice(indexOfFirstPost,
+                                                            indexOfLastPost) })
+    }, [stateLocal.currentPage]) //eslint-disable-line
+
+
+
+    const add_search_posts_to_state = (posts) => {
+        setStateLocal({...stateLocal, posts_search: []});
+        const search_query = event.target.value
+        axios.get('/api/get/searchpost', {params: {search_query: search_query} })
+            .then(res => res.data.length !== 0
+                                ? add_search_posts_to_state(res.data)
+                                : null )
+            .catch(function (error) {
+                console.log(error);
+            })
+    }
+
+    const RenderPosts = post => (
+        <div>
+            <Card >
+                <CardHeader
+                    title={<Link to={{pathname:'/post/' + post.post.pid, state: {post}}}>
+                            {post.post.title}
+                           </Link> }
+                    subheader={
+                        <div className="FlexColumn">
+                            <div className="FlexRow">
+                                { moment(post.post.date_created).format('MMM Do, YYYY | h:mm a') }
+                            </div>
+                            <div className="FlexRow">
+                                By:
+                                <Link style={{paddingLeft: '5px', textDecoration: 'none'}}
+                                    to={{pathname:"/user/" + post.post.author, state:{post} }}>
+                                        {post.post.author}
+                                    </Link>
+                            </div>
+                            <div className="FlexRow">
+                                <i className="material-icons">thumb_up</i>
+                                <div className="notification-num-allposts"> {post.post.likes} </div>
+                            </div>
+                        </div>
+                    }
+                    />
+                <br />
+                
+            </Card>
+        </div>
+    )
+
 }
 
