@@ -174,7 +174,60 @@ const Posts = (props) => {
     }
 
     return(
-        
+        <div>
+            <div style={{opacity: stateLocal.opacity, transition: 'opacity 2s ease'}}>
+                <br />
+                { context.authState
+                    ? <Link to="/addpost">
+                        <Button variant="contained" color="primary">
+                            Add Post
+                        </Button>
+                    </Link>
+                    : <Link to="/signup">
+                        <Button variant="contained" color="primary">
+                            Sign Up to Add Post
+                        </Button>
+                    </Link> 
+                }
+            </div>
+            <br />
+            <TextField
+                id="search"
+                label="Search"
+                margin="normal"
+                onChange={handleSearch}
+            />
+            <hr />
+            <br />
+            <div>
+                {stateLocal.posts_search
+                    ? stateLocal.posts_search.map(post =>
+                        <RenderPosts key={post.pid} post={post} />
+                        )
+                    : null
+                    }
+            </div>
+            <div>
+                <div className="FlextRow">
+                    <button onClick={() => page_change(1) }> First </button>
+                    <button onClick={() => page_change(stateLocal.currentPage - 1) }>Prev</button>
+                        {stateLocal.pages_slice.map((page) => 
+                            <div
+                                onClick={() => page_change(page)}
+                                className={stateLocal.currentPage === page
+                                                ? "pagination-active"
+                                                : "pagination-item"}
+                                key={page}>
+                                    {page}
+                            </div>
+
+                        )}
+                    <button onClick={() => page_change(stateLocal.currentPage +1)}> Next </button>
+                    <button onClick={() => page_change(stateLocal.max_page)}> Last </button>
+                </div>
+            </div>
+        </div>
     )
 }
 
+export default Posts;
