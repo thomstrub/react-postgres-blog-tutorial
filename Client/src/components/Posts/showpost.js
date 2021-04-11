@@ -28,5 +28,40 @@ const ShowPost = (props) => {
                                                    post_id: null
                                                 })
 
-    useEffect(() => {})
+    useEffect(() => {
+        if(props.location.state && !stateLocal.fetched){
+            setStateLocal({...stateLocal,
+                            fetched: true,
+                            likes: props.location.state.post.post.likes,
+                            like_user_ids: props.location.state.post.post.like_user_id,
+                            post_title: props.location.state.post.post.title,
+                            post_body: props.location.state.post.post.body,
+                            post_author: props.location.state.post.post.author,
+                            post_id: props.location.state.post.post.pid})
+        }
+    }, [stateLocal, props.location])
+
+    useEffect(()=> {
+        if(!props.location.state && !stateLocal.fetched){
+            const post_id = props.location.pathname.substring(6)
+
+            axios.get('/api/get/post',
+                        {params: {post_id: post_id}} )
+                .then(res => res.data.length !== 0
+                    ? setStateLocal({...stateLocal,
+                            fetched: true,
+                            likes: res.data[0].likes,
+                            like_user_ids: res.data[0].like_user_id,
+                            post_title: res.data[0].title,
+                            post_body: res.data[0].body,
+                            post_author: res.data[0].author,
+                            post_id: res.data[0].pid
+                        })
+                    : null
+                    )
+                .catch((err) => console.log(err) )
+        }
+    }, [stateLocal, props.location])
+
+    
 }
