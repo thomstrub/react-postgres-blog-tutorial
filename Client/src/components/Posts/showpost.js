@@ -121,8 +121,44 @@ const ShowPost = (props) => {
                     </small>
                     <p> By: {props.comment.author}</p>
                 </div>  
+            <div>
+            {props.cur_user_id === props.comment.user_id
+                ? !props.isEditing
+                    ? <div>
+                        <Button onClick={()=> setStateLocal({...stateLocal,
+                                                            edit_comment_id: props.comment.cid,
+                                                            edit_comment: props.comment.comment})
+                                        }>
+                            Edit
+                        </Button>
+                    </div>
+                    : <form onSubmit={(event, cid) => handleCommentUpdate(event, props.comment.cid)}>
+                        <input 
+                            autoFocus={true}
+                            name="edit_comment"
+                            id="editted_comment"
+                            label="Comment"
+                            value={stateLocal.edit_comment}
+                            onChange={handleEditCommentChange}
+                        />
+                        <br />
+                        <Button type='submit'>
+                            Agree
+                        </Button>
+                        <Button type="button" onClick={handleEditFormClose}>
+                            Cancel
+                        </Button>
+                        <button onClick={() => handleDeleteComment(props.comment.cid)}>
+                            Delete
+                        </button>
+                    </form>
+                : null
+            }
             </div>
-            
-        )
+        </div>
+        );
     }
+
+
+    
 }
