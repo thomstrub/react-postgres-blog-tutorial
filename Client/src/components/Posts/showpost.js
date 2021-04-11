@@ -103,4 +103,26 @@ const ShowPost = (props) => {
     const handleEditFormClose = () => {
         setStateLocal({...stateLocal, edit_comment_id: 0})
     }
+
+    const RenderComments = (props) => {
+        return(
+            <div className={stateLocal.delete_comment_id === props.comment.cid
+                                ? "FadeOutComment"
+                                : "CommentStyles"}>
+                <div>
+                    <p>{props.comment.comment}</p>
+                    <small>
+                        {props.comment.date_created === 'Just Now'
+                         ? <div> {props.comment.isEdited
+                                ? <span> Edited </span>
+                                : <span> Just Now </span>}</div>
+                         : props.comment.date_created
+                        }
+                    </small>
+                    <p> By: {props.comment.author}</p>
+                </div>  
+            </div>
+            
+        )
+    }
 }
