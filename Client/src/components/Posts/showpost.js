@@ -77,5 +77,30 @@ const ShowPost = (props) => {
         }
     }, [props.location,stateLocal])
 
-    
+    const handleCommentSubmit = (submitted_comment) => {
+        if(stateLocal.comments_arr) {
+            setStateLocal({...stateLocal, comments_arr: [submitted_comment,
+                                                        ...stateLocal.comments_arr]})
+        } else {
+            setStateLocal({...stateLocal, comments_arr: [submitted_comment]})
+        }
+    };
+
+    const handleCommentUpdate = (comment) => {
+        const commentIndex = stateLocal.comments_arr.findIndex(com => com.cid === comment.cid)
+        var newArr = [...stateLocal.comments_arr]
+        newArr[commentIndex] = comment
+
+        setTimeout(() => setStateLocal({...stateLocal, comments_arr: [...newArr], edit_comment_id: 0 }), 100)
+    };
+
+    const handleCommentDelete = (cid) => {
+        setStateLocal({...stateLocal, delete_comment_id: cid})
+        const newArr = stateLocal.comments_arr.filter(com => com.cid !== cid)
+        setStateLocal({...stateLocal, comments_arr: newArr})
+    };
+
+    const handleEditFormClose = () => {
+        setStateLocal({...stateLocal, edit_comment_id: 0})
+    }
 }
