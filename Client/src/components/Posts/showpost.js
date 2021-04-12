@@ -164,4 +164,31 @@ const ShowPost = (props) => {
                         edit_comment: event.target.value})
     };
 
+    const handleSubmit = (event) => {
+        event.preventDefault()
+        setStateLocal({...stateLocal, comment: ""})
+
+        const comment = event.target.comment.value
+        const user_id = context.dbProfileState[0].user_id
+        const username = context.dbProfileState[0].username
+        const post_id = stateLocal.post_id
+        const current_time = "Just Now"
+        const temp_cid = Math.floor(Math.random() * 1000);
+
+        const submitted_comment = { cid: temp_cid,
+                                    comment: comment,
+                                    user_id: user_id,
+                                    author: username,
+                                    date_created: current_time
+        }
+
+        const data = {comment: event.target.comment.value,
+                      post_id: post_id,
+                      user_id: user_id,
+                      username: username
+        }
+
+        
+    }
+
 }
