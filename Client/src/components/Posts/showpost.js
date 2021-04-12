@@ -250,6 +250,51 @@ const ShowPost = (props) => {
             .catch(err => console.log(err))
     };
 
-    return()
+    return(
+        <div>
+            <div>
+                <h2>Post</h2>
+                {stateLocal.comments_arr || props.location.state
+                    ?<div>
+                        <p>{stateLocal.post_title}</p>
+                        <p>{stateLocal.post_body}</p>
+                        <p>{stateLocal.post_author}</p>
+                     </div>
+                    : null
+                    }
+
+                    <div style={{cursor: 'pointer'}} onClick={context.authState
+                                                                ? () => handleLikes()
+                                                                : () => history.replace('/signup')}>
+                        <i className="material-icons">thumb_up</i>
+                        <small className="notification-num-showpost">
+                            {stateLocal.likes}
+                        </small>
+                    </div>
+            </div>
+            <div>
+                <h2> Comments: </h2>
+                {stateLocal.comments_arr
+                    ? stateLocal.comments_arr.map((comment) => 
+                        <RenderComments comment={comment}
+                                        curr_user_id={context.dbProfileState
+                                                        ? context.dbProfileState[0].uid
+                                                        : null}
+                                        key={comment.cid}
+                                        isEditing={comment.cid === stateLocal.edit_comment_id
+                                                    ? true
+                                                    : false}
+                    />)
+                    : null
+                    }
+
+            </div>
+            <div>
+                
+            </div>
+        </div>
+
+        
+    )
 
 }
