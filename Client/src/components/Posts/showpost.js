@@ -159,6 +159,9 @@ const ShowPost = (props) => {
         );
     }
 
+    const handleEditCommentChange = (event) => {
+        setStateLocal({...stateLocal,
+                        edit_comment: event.target.value})
+    };
 
-    
 }
