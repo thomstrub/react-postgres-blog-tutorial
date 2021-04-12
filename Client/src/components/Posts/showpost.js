@@ -188,7 +188,68 @@ const ShowPost = (props) => {
                       username: username
         }
 
-        
+        axios.post('/api/post/commenttodb', data)
+            .then(res => console.log(res))
+            .catch((err) => console.log(err))
+        window.scroll({top: 0, left: 0, behavior: 'smooth'})
+        handleCommentSubmit(submitted_comment)
     }
+
+    const handleUpdate = (event, cid) => {
+        event.preventDefault()
+        console.log(event)
+        console.log(cid)
+        const comment = event.target.editted_comment.value
+        const comment_id = cid
+        const post_id = stateLocal.post_id
+        const user_id = context.dbProfileState[0].user_id
+        const username = context.dbProfileState[0].username
+        const isEdited = true
+        const current_time = "Just Now"
+
+        const edited_comment = {cid: comment_id,
+                                comment: comment,
+                                user_id: user_id,
+                                author: username,
+                                date_created: current_time,
+                                isEdited: isEdited }
+        const data = {cid: comment_id,
+                      comment: comment,
+                      post_id: post_id,
+                      user_id: user_id,
+                      username: username}
+
+        axios.put('/api/put/commenttodb', data)
+            .then(res => console.log(res))
+            .catch((err) => console.log(err))
+        handleCommentUpdate(edited_comment);
+    }
+
+    const handleDeleteComment = (cid) => {
+        const comment_id = cid
+        console.log(cid)
+        axios.delete('/api/delete/comment', {data: {comment_id: comment_id}})
+            .then(res => console.log(res))
+            .catch((err) => console.log(err))
+        handleCommentDelete(cid)
+    }
+
+    const handleLikes = () => {
+        const user_id = context.dbProfileState[0].uid
+        const post_id = stateLocal.post_id
+
+        const data = {uid: user_id, post_id: post_id}
+        console.log(data)
+        axios.put('/api/put/likes', data)
+            .then(!stateLocal.like_user_ids.includes(user_id) && stateLocal.like_post
+                ? setStateLocal({...stateLocal,
+                            likes: stateLocal.likes + 1,
+                            like_post: false})
+                : null
+            )
+            .catch(err => console.log(err))
+    };
+
+    return()
 
 }
