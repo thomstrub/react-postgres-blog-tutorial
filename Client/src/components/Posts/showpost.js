@@ -290,7 +290,28 @@ const ShowPost = (props) => {
 
             </div>
             <div>
-                
+                <form onSubmit={handleSubmit}>
+                    <TextField
+                        id="comment"
+                        label="Comment"
+                        margin="normal"
+                    />
+                    <br />
+
+                    {context.authState
+                        ? <Button variant="contained" color="primary" type="submit">
+                            Submit
+                        </Button>
+                        : <Link to="/signup">
+                            <Button variant="contained" color="primary">
+                                Signup to Comment
+                            </Button>
+                        </Link>
+                        }
+                </form>
+            </div>
+            <div>
+            
             </div>
         </div>
 
@@ -298,3 +319,5 @@ const ShowPost = (props) => {
     )
 
 }
+
+export default ShowPost;
