@@ -66,6 +66,39 @@ const Profile = () => {
         )
     }
 
-    
+    const RenderPosts = post => (
+        <Card style={{width: '500px', height: '200px', marginBottom: '10px', paddingBottom: '80px'}}>
+            <CardHeader
+                title={<Link to={{pathname: '/post/' + post.post.pid, state: {post}}}>
+                    {post.post.title}
+                    </Link>}
+                subheader={
+                    <div className="FlexColumn">
+                        <div className="FlexRow">
+                            {post.post.date_created}
+                        </div>
+                        <div className="FlexRow">
+                            <Link to={{pathname: '/editpost/' + post.post.pid, state:{post} }}>
+                                <button>
+                                    Edit
+                                </button>
+                            </Link>
+                            <button onClick={() => handleClickOpen(post.post.pid) }>
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                }
+                />
+            <br />
+            <CardContent>
+                <span style={{overflow: 'hidden'}}> {post.post.body} </span>
+            </CardContent>
+        </Card>
+    );
+
+    return(
+        
+    )
 
 }
