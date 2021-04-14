@@ -15,3 +15,36 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 
+const Profile = () => {
+    const context = useContext(Context)
+
+    const [stateLocal, setStateLocal] = useState({open: false,
+                                                  post_id:null,
+                                                  posts: []
+                                                })
+
+    useEffect(() => {
+        const user_id = context.dbProfileState[0].user_id
+        axios.get('/api/get/userposts', {params: {user_id: user_id}})
+            .then((res) => setStateLocal({...stateLocal, posts: [...res.data] }))
+            .catch((err) => console.log(err))
+    });
+    
+    const handleClickOpen = (pid) => {
+        setStateLocal({open: true, post_id: pid})
+    }
+
+    const handleClickClose = () => {
+        setStateLocal({open: false, post_id: null})
+    }
+
+    const DeletePost = () => {
+        const post_id = stateLocal.post_id
+        axios.delete('api/delete/postcomments', {data: {post_id: post_id}} )
+            .then(() => axios.delete('/api/delete/post', {data: {post_id: post_id}} ) 
+                .then(res => console.log(res) ) )
+            .catch(err => console.log(err))
+            .then(() => handleClickClose())
+            .then(() => setTimeout(() => history.replace('/'), 700) )
+    }
+}
