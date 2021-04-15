@@ -99,7 +99,35 @@ const Profile = () => {
 
     return(
         <div>
-            
+            <div>
+                <RenderProfile profile={context.dbProfileState} />
+            </div>
+            <div>
+                {stateLocal.posts
+                    ? stateLocal.post.map(post =>
+                        <RenderPosts post={post} key={post.pid} />
+                    )
+                    : null
+                    }
+            </div>
+            <Dialog
+                open={stateLocal.open}
+                onClose={handleClickClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describeby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title"> Confirm Delete? </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText
+                            id="alert-dialog-description"
+                        >
+                            Deleting Post
+                        </DialogContentText>
+                        <DialogActions>
+                            
+                        </DialogActions>
+                    </DialogContent>
+            </Dialog>
         </div>
     )
 
