@@ -124,7 +124,8 @@ const Profile = () => {
                             Deleting Post
                         </DialogContentText>
                         <DialogActions>
-                            
+                            <Button onClick={() => DeletePost()}> Agree </Button>
+                            <Button onClick={() => handleClickClose()}> Cancel </Button>
                         </DialogActions>
                     </DialogContent>
             </Dialog>
@@ -132,3 +133,5 @@ const Profile = () => {
     )
 
 }
+
+export default (Profile);
